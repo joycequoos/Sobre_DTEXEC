@@ -7,5 +7,5 @@
 
 ### 🟢 Perguntas:
 
-- 1. O que é o `dtexec` que geralmente fica no `C:\Program Files\Microsoft SQL Server\160\DTS\Binn`?
+ 1. O que é o `dtexec` que geralmente fica no `C:\Program Files\Microsoft SQL Server\160\DTS\Binn`?
 
