@@ -100,10 +100,59 @@ Se não tiver o SSIS, não aparece (mas dá para instalar depois pelo instalador
    - Você usa o <b>SSDT/Visual Studio</b> para "compilar" seu ETL.
    - Depois usa o <b>dtexec</b> (ou SQL Agent, ou catálogo do SSIS) para <b>rodar esse ETL em produção</b>.
 
-  # Mapa resumido mostrando o que cada parte (SSDT, SSIS, dtexec, SQL Agent) faz no ciclo de vida de um ETL no SQL Server?
+  #### Mapa resumido mostrando o que cada parte (SSDT, SSIS, dtexec, SQL Agent) faz no ciclo de vida de um ETL no SQL Server?
+
+  #### 🗺️ Ciclo de vida de um ETL no SQL Server
    
+  #### 1. Desenvolvimento – Criando pacotes
 
+  - <b>Ferramenta: SQL Server Data Tools (SSDT)</b> no Visual Studio
+  - O que faz:
+    - Criar <b>pacotes SSIS (.dtsx)</b> com fluxos de dados (ETL).
+    - Configurar conexões (SQL, arquivos, APIs, etc).
+    - Testar localmente no Visual Studio.
 
+  - <b>Resultado:</b> arquivos `.dtsx` (ou projeto `.ispac`).
+
+ #### 2. Implantação – Onde colocar os pacotes
+
+ - Pacotes podem ser salvos em:
+   - <b>Sistema de arquivos</b> → .dtsx direto numa pasta.
+   - <b>MSDB</b> → banco do SQL Server.
+   - <b>SSISDB (Catálogo do Integration Services)</b> → repositório moderno, com logs e monitoramento.
+  
+ #### 3. Execução – Rodando pacotes
+
+ - <b>Ferramenta principal:</b> `dtexec.exe`
+ - O que faz:
+   - Executa pacotes `.dtsx` ou do catálogo.
+   - Permite passar <b>parâmetros, variáveis e configs</b> via linha de comando.
+   - Pode ser chamado manualmente, por script (PowerShell, .bat) ou por sistemas externos (ex.: C# via `Process.Start`).
+  
+   Exemplo:
+
+       dtexec /f "C:\ETL\CargaClientes.dtsx" /SET \Package.Variables[User::DataReferencia].Value;"2025-08-19"
+
+   #### 4. Agendamento – Automação
+
+   - <b>Ferramenta: SQL Server Agent</b>
+   - O que faz:
+     - Agenda jobs que rodam pacotes SSIS (internamente chamando o `dtexec`).
+     - Permite rodar diariamente, semanalmente, etc.
+     - Pode combinar ETLs com stored procedures, scripts PowerShell, etc.
+    
+   #### 5. Monitoramento & Logs
+
+   - <b>SSISDB</b> (se usado): oferece relatórios nativos de execução, histórico, falhas.
+   - <b>Logs customizados:</b> configurados no pacote ou via parâmetros do `dtexec`.
+   - <b>Ferramentas externas</b>: podem capturar saídas do `dtexec` (como SircoiServer que você analisa).
+
+  ### 📌 Resumindo:
+
+  - <b>SSDT</b> = onde você <b>desenha o ETL</b>.
+  - <b>SSIS runtime (dtexec)</b> = onde você <b>roda o ETL</b>.
+  - <b>SQL Agent</b> = onde você <b>agenda e automatiza</b> o ETL.
+  
    
 
 
