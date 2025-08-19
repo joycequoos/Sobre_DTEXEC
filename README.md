@@ -1,2 +1,6 @@
 
 ## 💡 DTEXEC
+
+### 🟢 Perguntas:
+
+
