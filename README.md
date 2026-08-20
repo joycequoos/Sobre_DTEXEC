@@ -13,6 +13,7 @@ Anotações e estudo sobre o `dtexec` — ferramenta de linha de comando usada p
 - [O dtexec acompanha o SQL Server?](#o-dtexec-acompanha-o-sql-server)
 - [dtexec faz parte do SSDT?](#dtexec-faz-parte-do-ssdt)
 - [Ciclo de vida de um ETL no SQL Server](#ciclo-de-vida-de-um-etl-no-sql-server)
+- [Link para bat que executa SSIS](#link-para-bat-que-executa-ssis)
 - [Resumo](#resumo)
 
 ---
@@ -182,6 +183,10 @@ O que faz:
 - **SSISDB** (se usado): oferece relatórios nativos de execução, histórico, falhas
 - **Logs customizados**: configurados no pacote ou via parâmetros do `dtexec`
 - **Ferramentas externas**: podem capturar saídas do `dtexec` (como o SircoiServer)
+
+## Link para bat que executa ssis
+
+https://github.com/joycequoos/Dttexec-
 
 ---
 
