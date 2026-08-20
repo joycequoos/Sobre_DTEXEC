@@ -1,160 +1,194 @@
+[← Voltar para Sircoi Geral](https://github.com/joycequoos/Sircoi_Geral)
 
-<div> 
-<p><a href="https://github.com/JosiTubaroski/Sircoi_Geral">Home</a></p>
-</div> 
+# 💡 DTEXEC
 
-## 💡 DTEXEC
+Anotações e estudo sobre o `dtexec` — ferramenta de linha de comando usada para executar pacotes SSIS (SQL Server Integration Services), com foco em entendimento prático para suporte e desenvolvimento.
 
-### 🟢 Perguntas:
+## Sumário
 
- 1. O que é o `dtexec` que geralmente fica no `C:\Program Files\Microsoft SQL Server\160\DTS\Binn`?
+- [O que é o dtexec](#o-que-é-o-dtexec)
+- [Para que serve](#para-que-serve)
+- [Exemplos de uso](#exemplos-de-uso)
+- [Onde é usado na prática](#onde-é-usado-na-prática)
+- [O dtexec acompanha o SQL Server?](#o-dtexec-acompanha-o-sql-server)
+- [dtexec faz parte do SSDT?](#dtexec-faz-parte-do-ssdt)
+- [Ciclo de vida de um ETL no SQL Server](#ciclo-de-vida-de-um-etl-no-sql-server)
+- [Resumo](#resumo)
 
-O `dtexec` é uma <b>ferramenta de linha de comando da Microsoft</b> usada para <b>executar pacotes do SQL Server Integration Services (SSIS)</b>.
+---
 
-👉 Ele geralmente fica nesse caminho que você mencionou:
-    
+## O que é o dtexec
+
+**Pergunta:** O que é o `dtexec` que geralmente fica em `C:\Program Files\Microsoft SQL Server\160\DTS\Binn`?
+
+O `dtexec` é uma **ferramenta de linha de comando da Microsoft** usada para **executar pacotes do SQL Server Integration Services (SSIS)**.
+
+Ele geralmente fica no caminho:
+
 <img width="431" height="84" alt="image" src="https://github.com/user-attachments/assets/92274893-6088-4f6e-b757-5f3ead6c2a79" />
 
-(`160` corresponde à versão do SQL Server 2019/2022).
+> `160` corresponde à versão do SQL Server 2019/2022.
 
-### Para que serve o dtexec?
+---
 
-- Executar pacotes SSIS (.dtsx) que foram desenvolvidos no <b>SQL Server Data Tools (SSDT)</b> ou no <b>Visual Studio</b>.
-- Rodar pacotes armazenados no <b>MSDB</b> ou no <b>SSISDB (Catálogo do Integration Services)</b>.
-- Executar pacotes salvos em arquivos (`.dtsx`) no sistema de arquivos.
-- Permitir passar parâmetros, variáveis e opções de log pela linha de comando.
+## Para que serve
 
-### Exemplos de uso
+- Executar pacotes SSIS (`.dtsx`) desenvolvidos no **SQL Server Data Tools (SSDT)** ou no **Visual Studio**
+- Rodar pacotes armazenados no **MSDB** ou no **SSISDB** (Catálogo do Integration Services)
+- Executar pacotes salvos em arquivos (`.dtsx`) no sistema de arquivos
+- Permitir passar parâmetros, variáveis e opções de log pela linha de comando
 
-1. <b>Executar pacote salvo em arquivo</b>:
+---
 
-   <img width="287" height="78" alt="image" src="https://github.com/user-attachments/assets/90fea1df-ee95-4c93-a95a-ee08f118d0be" />
+## Exemplos de uso
 
-2. <b>Executar pacote armazenado no Catálogo SSIS (SSISDB)</b>:
+**1. Executar pacote salvo em arquivo:**
 
-   <img width="704" height="38" alt="image" src="https://github.com/user-attachments/assets/1f20f8dc-44ef-484e-9b40-d2b854d0088f" />
+<img width="287" height="78" alt="image" src="https://github.com/user-attachments/assets/90fea1df-ee95-4c93-a95a-ee08f118d0be" />
 
-3. <b>Passando parâmetros</b>:
+**2. Executar pacote armazenado no Catálogo SSIS (SSISDB):**
 
-       dtexec /f "C:\ETL\CargaClientes.dtsx" /SET \Package.Variables[User::DataReferencia].Value;"2025-08-19"
+<img width="704" height="38" alt="image" src="https://github.com/user-attachments/assets/1f20f8dc-44ef-484e-9b40-d2b854d0088f" />
 
+**3. Passando parâmetros:**
 
-### Onde ele é usado na prática?
+```
+dtexec /f "C:\ETL\CargaClientes.dtsx" /SET \Package.Variables[User::DataReferencia].Value;"2025-08-19"
+```
 
-- Em <b>agendamentos de jobs</b> no SQL Server Agent.
-- Em <b>sistemas externos</b> que precisam rodar pacotes SSIS (por exemplo, um serviço .NET que chama o `dtexec`).
-- Em scripts de automação (PowerShell, .bat).
-- Em <b>serviços de ETL</b> (como no SircoiServer que você está analisando, que usa `dtexec` para rodar pacotes SSIS além de procedures SQL).
+---
 
+## Onde é usado na prática
 
-### 🟢 Perguntas:
-2. O dtexec acompanha o SQL Server?
+- Em **agendamentos de jobs** no SQL Server Agent
+- Em **sistemas externos** que precisam rodar pacotes SSIS (por exemplo, um serviço .NET que chama o `dtexec`)
+- Em **scripts de automação** (PowerShell, `.bat`)
+- Em **serviços de ETL** (como no SircoiServer, que usa `dtexec` para rodar pacotes SSIS além de procedures SQL)
 
-   Sim, o `dtexec` <b>acompanha o SQL Server</b>, mas <b>não em todas as edições</b>:
+---
 
-   ### 📌 Onde ele vem incluso
+## O dtexec acompanha o SQL Server?
 
-   - Ele é instalado junto com o <b>Integration Services (SSIS)</b>, que faz parte do <b>SQL Server Data Tools (SSDT)</b> e do <b>SQL Server Integration Services</b>.
-   - Também aparece quando você instala o <b>SQL Server Database Engine + Integration Services</b> no setup do SQL Server.
-   - A versão do `dtexec` depende da versão do SQL Server instalada (ex.: `130` para SQL Server 2016, `140` para 2017, `150` para 2019, `160` para 2022).
+**Pergunta:** O dtexec acompanha o SQL Server?
 
-   ### 📌 Atenção
+Sim, o `dtexec` **acompanha o SQL Server**, mas **não em todas as edições**.
 
-   - Se você instalar <b>apenas o SQL Server Database Engine</b> (sem SSIS), pode ser que o `dtexec.exe` <b>não esteja disponível</b>.
-   - Ele também pode vir junto com o <b>SQL Server Client Tools</b> (quando você instala os recursos de desenvolvimento).
-  
-   ### 📌 Verificando
+### 📌 Onde ele vem incluso
 
-   Você pode procurar pelo executável com:
+- É instalado junto com o **Integration Services (SSIS)**, que faz parte do **SQL Server Data Tools (SSDT)** e do **SQL Server Integration Services**
+- Também aparece ao instalar o **SQL Server Database Engine + Integration Services** no setup do SQL Server
+- A versão do `dtexec` depende da versão do SQL Server instalada:
 
-   <img width="171" height="58" alt="image" src="https://github.com/user-attachments/assets/2265de4b-aa02-4ab7-9394-9594b0440109" />
+| Versão do dtexec | Versão do SQL Server |
+|---|---|
+| 130 | SQL Server 2016 |
+| 140 | SQL Server 2017 |
+| 150 | SQL Server 2019 |
+| 160 | SQL Server 2022 |
 
-   ou
+### 📌 Atenção
 
-   <img width="518" height="52" alt="image" src="https://github.com/user-attachments/assets/8d43e7b8-068b-4047-a187-4bfca0962098" />
+- Se você instalar **apenas o SQL Server Database Engine** (sem SSIS), o `dtexec.exe` **pode não estar disponível**
+- Também pode vir junto com o **SQL Server Client Tools** (ao instalar os recursos de desenvolvimento)
 
-👉 Resumindo: o `dtexec` <b>vem junto com o SQL Server quando o Integration Services está instalado</b>.
-Se não tiver o SSIS, não aparece (mas dá para instalar depois pelo instalador do SQL Server).
-   
-### 🟢 Perguntas:
-3. Então o dtexe faz parte do SQL Server Data Tools (SSDT)?
+### 📌 Verificando se o dtexec está instalado
 
-   📌 `dtexec` <b>não faz parte do SSDT em si</b>.
+<img width="171" height="58" alt="image" src="https://github.com/user-attachments/assets/2265de4b-aa02-4ab7-9394-9594b0440109" />
 
-   - O <b>SSDT (SQL Server Data Tools)</b> é a <b>ferramenta de desenvolvimento</b> (no Visual Studio) onde você <b>cria</b> pacotes SSIS (.dtsx).
-   - Ele serve para <b>desenhar e desenvolver</b> ETLs.
-  
-   📌 <b>O</b> `dtexec` <b>faz parte do Integration Services (SSIS Runtime)</b>
+ou
 
-   - O <b>Integration Services (SSIS)</b> é a <b>engine de execução</b> que roda os pacotes criados no SSDT.
-   - O `dtexec.exe` é justamente a ferramenta de linha de comando dessa engine.
-   - Ele vem junto quando você instala o <b>SQL Server Integration Services</b> pelo setup do SQL Server (ou quando instala os <b>Client Tools</b> de SSIS).
-  
-   👉 Então:
+<img width="518" height="52" alt="image" src="https://github.com/user-attachments/assets/8d43e7b8-068b-4047-a187-4bfca0962098" />
 
-   - <b>SSDT = desenvolvimento</b> (criar pacotes).
-   - <b>dtexec/SSIS = execução</b> (rodar pacotes).
-  
-   Um jeito de pensar:
+> 👉 Resumindo: o `dtexec` **vem junto com o SQL Server quando o Integration Services está instalado**. Se não tiver o SSIS, não aparece — mas dá para instalar depois pelo instalador do SQL Server.
 
-   - Você usa o <b>SSDT/Visual Studio</b> para "compilar" seu ETL.
-   - Depois usa o <b>dtexec</b> (ou SQL Agent, ou catálogo do SSIS) para <b>rodar esse ETL em produção</b>.
+---
 
-  #### Mapa resumido mostrando o que cada parte (SSDT, SSIS, dtexec, SQL Agent) faz no ciclo de vida de um ETL no SQL Server?
+## dtexec faz parte do SSDT?
 
-  #### 🗺️ Ciclo de vida de um ETL no SQL Server
-   
-  #### 1. Desenvolvimento – Criando pacotes
+**Pergunta:** Então o dtexec faz parte do SQL Server Data Tools (SSDT)?
 
-  - <b>Ferramenta: SQL Server Data Tools (SSDT)</b> no Visual Studio
-  - O que faz:
-    - Criar <b>pacotes SSIS (.dtsx)</b> com fluxos de dados (ETL).
-    - Configurar conexões (SQL, arquivos, APIs, etc).
-    - Testar localmente no Visual Studio.
+📌 `dtexec` **não faz parte do SSDT em si**.
 
-  - <b>Resultado:</b> arquivos `.dtsx` (ou projeto `.ispac`).
+- O **SSDT (SQL Server Data Tools)** é a **ferramenta de desenvolvimento** (no Visual Studio) onde você **cria** pacotes SSIS (`.dtsx`)
+- Serve para **desenhar e desenvolver** ETLs
 
- #### 2. Implantação – Onde colocar os pacotes
+📌 O `dtexec` **faz parte do Integration Services (SSIS Runtime)**
 
- - Pacotes podem ser salvos em:
-   - <b>Sistema de arquivos</b> → .dtsx direto numa pasta.
-   - <b>MSDB</b> → banco do SQL Server.
-   - <b>SSISDB (Catálogo do Integration Services)</b> → repositório moderno, com logs e monitoramento.
-  
- #### 3. Execução – Rodando pacotes
+- O **Integration Services (SSIS)** é a **engine de execução** que roda os pacotes criados no SSDT
+- O `dtexec.exe` é a ferramenta de linha de comando dessa engine
+- Vem junto quando se instala o **SQL Server Integration Services** pelo setup (ou os **Client Tools** de SSIS)
 
- - <b>Ferramenta principal:</b> `dtexec.exe`
- - O que faz:
-   - Executa pacotes `.dtsx` ou do catálogo.
-   - Permite passar <b>parâmetros, variáveis e configs</b> via linha de comando.
-   - Pode ser chamado manualmente, por script (PowerShell, .bat) ou por sistemas externos (ex.: C# via `Process.Start`).
-  
-   Exemplo:
+### Resumindo a diferença
 
-       dtexec /f "C:\ETL\CargaClientes.dtsx" /SET \Package.Variables[User::DataReferencia].Value;"2025-08-19"
+| Ferramenta | Papel |
+|---|---|
+| **SSDT** | Desenvolvimento — criar pacotes |
+| **dtexec / SSIS** | Execução — rodar pacotes |
 
-   #### 4. Agendamento – Automação
+Um jeito de pensar:
+- Você usa o **SSDT/Visual Studio** para "compilar" seu ETL
+- Depois usa o **dtexec** (ou SQL Agent, ou catálogo do SSIS) para **rodar esse ETL em produção**
 
-   - <b>Ferramenta: SQL Server Agent</b>
-   - O que faz:
-     - Agenda jobs que rodam pacotes SSIS (internamente chamando o `dtexec`).
-     - Permite rodar diariamente, semanalmente, etc.
-     - Pode combinar ETLs com stored procedures, scripts PowerShell, etc.
-    
-   #### 5. Monitoramento & Logs
+---
 
-   - <b>SSISDB</b> (se usado): oferece relatórios nativos de execução, histórico, falhas.
-   - <b>Logs customizados:</b> configurados no pacote ou via parâmetros do `dtexec`.
-   - <b>Ferramentas externas</b>: podem capturar saídas do `dtexec` (como SircoiServer que você analisa).
+## Ciclo de vida de um ETL no SQL Server
 
-  ### 📌 Resumindo:
+Mapa resumido mostrando o que cada parte (SSDT, SSIS, dtexec, SQL Agent) faz no ciclo de vida completo de um ETL.
 
-  - <b>SSDT</b> = onde você <b>desenha o ETL</b>.
-  - <b>SSIS runtime (dtexec)</b> = onde você <b>roda o ETL</b>.
-  - <b>SQL Agent</b> = onde você <b>agenda e automatiza</b> o ETL.
-  
-   
+### 1. Desenvolvimento — Criando pacotes
 
+**Ferramenta:** SQL Server Data Tools (SSDT), no Visual Studio
 
+O que faz:
+- Criar **pacotes SSIS (.dtsx)** com fluxos de dados (ETL)
+- Configurar conexões (SQL, arquivos, APIs, etc.)
+- Testar localmente no Visual Studio
 
+**Resultado:** arquivos `.dtsx` (ou projeto `.ispac`)
 
+### 2. Implantação — Onde colocar os pacotes
+
+Pacotes podem ser salvos em:
+- **Sistema de arquivos** → `.dtsx` direto numa pasta
+- **MSDB** → banco do SQL Server
+- **SSISDB** (Catálogo do Integration Services) → repositório moderno, com logs e monitoramento
+
+### 3. Execução — Rodando pacotes
+
+**Ferramenta principal:** `dtexec.exe`
+
+O que faz:
+- Executa pacotes `.dtsx` ou do catálogo
+- Permite passar **parâmetros, variáveis e configs** via linha de comando
+- Pode ser chamado manualmente, por script (PowerShell, `.bat`) ou por sistemas externos (ex.: C# via `Process.Start`)
+
+Exemplo:
+
+```
+dtexec /f "C:\ETL\CargaClientes.dtsx" /SET \Package.Variables[User::DataReferencia].Value;"2025-08-19"
+```
+
+### 4. Agendamento — Automação
+
+**Ferramenta:** SQL Server Agent
+
+O que faz:
+- Agenda jobs que rodam pacotes SSIS (internamente chamando o `dtexec`)
+- Permite rodar diariamente, semanalmente, etc.
+- Pode combinar ETLs com stored procedures, scripts PowerShell, etc.
+
+### 5. Monitoramento & Logs
+
+- **SSISDB** (se usado): oferece relatórios nativos de execução, histórico, falhas
+- **Logs customizados**: configurados no pacote ou via parâmetros do `dtexec`
+- **Ferramentas externas**: podem capturar saídas do `dtexec` (como o SircoiServer)
+
+---
+
+## Resumo
+
+| Camada | Ferramenta | Papel |
+|---|---|---|
+| Desenvolvimento | **SSDT** | Onde você desenha o ETL |
+| Execução | **SSIS runtime (dtexec)** | Onde você roda o ETL |
+| Agendamento | **SQL Agent** | Onde você agenda e automatiza o ETL |
